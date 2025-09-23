@@ -1,0 +1,30 @@
+{
+  "name": "demo_qa_type_script_ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/savchukura/demo_qa_type_script_ui.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/savchukura/demo_qa_type_script_ui/issues"
+  },
+  "homepage": "https://github.com/savchukura/demo_qa_type_script_ui#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "@playwright/test": "^1.55.0",
+    "allure-commandline": "^2.34.1",
+    "allure-playwright": "^3.4.1",
+    "chai": "^6.0.1",
+    "mocha": "^11.7.2"
+  }
+}

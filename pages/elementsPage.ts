@@ -163,3 +163,32 @@ export class WebTablesPage extends BasePage{
         return {firstName, lastName, email, age, salary, department}
     }
 }
+
+
+export class ButtonsPage extends BasePage {
+    constructor(page: Page){
+        super(page)
+    }
+
+    async clickDoubleClickButton(){
+        await this.page.getByRole('button', {name: 'Double Click Me'}).dblclick()
+        const result = await this.page.locator("#doubleClickMessage").textContent()
+        return result
+    }
+
+    async clickRightClickButton(){
+        await this.page.getByRole('button', {name: 'Right Click Me'}).click({ button: 'right' })
+        const result = await this.page.locator("#rightClickMessage").textContent()
+        return result
+    }
+
+    async clickMeButton(){
+        await this.page.getByRole('button', { name: 'Click Me', exact: true }).click()
+        const result = await this.page.locator("#dynamicClickMessage").textContent()
+        return result
+    }
+
+    async getResult(){
+        const result = await this.page.locator("#doubleClickMessage")
+    }
+}

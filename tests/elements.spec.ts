@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablesPage } from '../pages/elementsPage.ts'
+import { TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablesPage, ButtonsPage } from '../pages/elementsPage.ts'
 import { generateUserData } from '../utils/dataGenerator';
 
 const testDataArray = [
@@ -14,7 +14,7 @@ test.describe('Text Box Page Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     textBoxPage = new TextBoxPage(page);
-    await textBoxPage.open('https://demoqa.com/text-box');
+    await textBoxPage.open('/text-box');
 
   });
 
@@ -57,7 +57,7 @@ test.describe('Text Box Page Tests', () => {
 test.describe('CheckBoxPage', async () => {
 
   test.beforeEach(async ({page}) => {
-    await page.goto('https://demoqa.com/checkbox')
+    await page.goto('/checkbox')
   })
 
   test('Click Some Check Box', async ({page}) => {
@@ -86,7 +86,7 @@ test.describe('CheckBoxPage', async () => {
 test.describe(' Radio Button Page Tests', () => {
   
   test.beforeEach( async ({page}) => {
-    await page.goto('https://demoqa.com/radio-button')
+    await page.goto('/radio-button')
   })
 
   test('Click Yes Radio', async ({page}) => {
@@ -107,7 +107,7 @@ test.describe(' Radio Button Page Tests', () => {
 test.describe('Web Tables Page', () => {
   
   test.beforeEach( async ({page}) => {
-    await page.goto('https://demoqa.com/webtables')
+    await page.goto('/webtables')
   })
 
   test('Create Person', async ({page}) => {
@@ -161,4 +161,35 @@ test.describe('Web Tables Page', () => {
     expect(result).toEqual('No rows found')
   })
 
+})
+
+
+test.describe('Tests Buttons Page', () => {
+
+  test.beforeEach( async ({page}) => {
+    await page.goto('/buttons')
+  })
+
+  test('Test Click Double Click Button', async ({page}) => {
+    const buttonsPage = new ButtonsPage(page)
+    const result = await buttonsPage.clickDoubleClickButton()
+    console.log(result)
+    expect(result).toEqual('You have done a double click')
+  })
+
+  test('Test Right Click Button', async ({page}) => {
+    const buttonsPage = new ButtonsPage(page)
+    const result = await buttonsPage.clickRightClickButton()
+    console.log(result)
+    expect(result).toEqual('You have done a right click')
+
+  })
+
+  test('Test Dynamic Click Button', async ({page}) => {
+    const buttonsPage = new ButtonsPage(page)
+    const result = await buttonsPage.clickMeButton()
+    console.log(result)
+    expect(result).toEqual('You have done a dynamic click')
+
+  })
 })

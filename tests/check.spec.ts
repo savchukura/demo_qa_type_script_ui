@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import TextBoxPage from "../pages/TextBoxPage";
+import { TextBoxPage } from '../pages/elementsPage.ts'
 import { generateUserData } from '../utils/dataGenerator';
 
 const testDataArray = [

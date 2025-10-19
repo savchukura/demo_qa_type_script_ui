@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablesPage, ButtonsPage } from '../pages/elementsPage.ts'
-import { generateUserData } from '../utils/dataGenerator';
+import { TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablesPage, ButtonsPage, DownloadUploadPage, DynamicPropertiesPage } from '../pages/elementsPage.ts'
+import { generateUserData, generateTxtFile } from '../utils/dataGenerator';
 
 const testDataArray = [
   generateUserData(),
@@ -191,5 +191,53 @@ test.describe('Tests Buttons Page', () => {
     console.log(result)
     expect(result).toEqual('You have done a dynamic click')
 
+  })
+})
+
+
+test.describe('Work with Files', () => {
+
+  test.beforeEach(async ({page}) => {
+    await page.goto('/upload-download')
+  })
+
+  test('Upload File', async ({page}) => {
+    const fileName = generateUserData().fileName
+    const uploadFile = new DownloadUploadPage(page)
+    await uploadFile.UploadFile(fileName)
+    const result = await uploadFile.getUploadedFileText()
+    expect(fileName).toEqual(result)
+  })
+
+  test('download File', async ({page}) => {
+    const downloadFile = new DownloadUploadPage(page)
+    expect(downloadFile).toBeTruthy();
+  })
+})
+
+
+test.describe('Dynamic Properties Page Test', () =>{
+
+  test.beforeEach(async ({page}) =>{
+    await page.goto('/dynamic-properties')
+  })
+
+  test('Click "Enable after 5 seconds button"', async ({page}) =>{
+    const dynamicPage = new DynamicPropertiesPage(page)
+    const button = await dynamicPage.clickEnableButton()
+    await expect(button).toBeEnabled({ timeout: 10000 })
+  })
+
+  test('Click "Collor Change button"', async ({page}) =>{
+    const dynamicPage = new DynamicPropertiesPage(page)
+    const colorBefore = await dynamicPage.getCollorBefore()
+    const colorAfter = await dynamicPage.getCollorAfter()
+    expect(colorBefore).not.toEqual(colorAfter)
+  })
+
+  test('Click "visible after 5 second button', async ({page}) =>{
+    const dynamicPage = new DynamicPropertiesPage(page)
+    const visibleButton = await dynamicPage.clickVisibleButton()
+    await expect(visibleButton).toBeVisible()
   })
 })

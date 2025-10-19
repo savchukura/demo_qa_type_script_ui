@@ -1,5 +1,8 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 import BasePage from './basePage';
+import {generateTxtFile, deleteFile} from '../utils/dataGenerator'
+import * as fs from 'fs';
+import * as path from 'path';
 
 
 export class TextBoxPage extends BasePage {
@@ -191,4 +194,80 @@ export class ButtonsPage extends BasePage {
     async getResult(){
         const result = await this.page.locator("#doubleClickMessage")
     }
+}
+
+
+export class DownloadUploadPage extends BasePage{
+    constructor(page: Page){
+        super(page)
+    }
+
+    async UploadFile(fileName: string){
+        const filePath = generateTxtFile(fileName, 'Test Content');
+
+        await this.page.setInputFiles('input[type="file"]', filePath);
+
+        await expect(this.page.locator('#uploadedFilePath')).toBeVisible();
+
+        deleteFile(filePath);
+    }
+
+    async getUploadedFileText(){
+        const result = await this.page.locator('#uploadedFilePath').textContent()
+        return result?.split(/[/\\]/).pop()?.replace('.txt', '');
+    }
+
+    async downloadFile(){
+        const href = await this.page.locator('#downloadButton').getAttribute('href');
+        if (!href) throw new Error('Download link not found');
+
+        const base64Data = href.split(',')[1];
+        const buffer = Buffer.from(base64Data, 'base64');
+
+        const randomId = Math.floor(Math.random() * 1000);
+        const filePath = path.resolve(__dirname, `../testData/downloaded_${randomId}.jpeg`);
+
+        fs.writeFileSync(filePath, buffer);
+
+        const fileExists = fs.existsSync(filePath);
+
+        fs.unlinkSync(filePath);
+
+        return fileExists;
+    }
+}
+
+export class DynamicPropertiesPage extends BasePage {
+    EnableButton: Locator
+    VisibleButton: Locator
+
+    constructor(page: Page){
+        super(page)
+        this.EnableButton = page.locator('#enableAfter')
+        this.VisibleButton = page.locator('#visibleAfter')
+    }
+
+    async clickEnableButton(){
+        return this.EnableButton;
+    }
+
+    async getCollorBefore(){
+        const colorBefore = this.page.locator('#colorChange').evaluate((element) => {
+            return getComputedStyle(element).color;
+    })
+    return colorBefore
+    }
+
+    async getCollorAfter(){
+        await this.page.waitForTimeout(6000)
+        const colorAfter = this.page.locator('#colorChange').evaluate((element) => {
+            return getComputedStyle(element).color;
+    })
+    return colorAfter
+    }
+
+    async clickVisibleButton(){
+        return this.VisibleButton
+    }
+
 }

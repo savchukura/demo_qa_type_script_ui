@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { randomInt } from 'crypto';
+import * as fs from 'fs';
+import * as path from 'path';
 
 interface UserData {
     fullName: string;
@@ -11,6 +13,7 @@ interface UserData {
     department: string;
     currentAddress: string;
     permanentAddress: string;
+    fileName: string;
 };
 
 export function generateUserData(): UserData {
@@ -23,6 +26,7 @@ export function generateUserData(): UserData {
     const department = faker.person.jobType()
     const currentAddress = faker.location.streetAddress();
     const permanentAddress = faker.location.streetAddress();
+    const fileName = faker.internet.displayName()
 
     return { fullName,
              firstName,
@@ -32,7 +36,28 @@ export function generateUserData(): UserData {
              salary,
              department,
              currentAddress,
-             permanentAddress
+             permanentAddress,
+             fileName
         };
 };
+
+
+export function generateTxtFile(fileName: string, content: string): string {
+  const dirPath = path.resolve(__dirname, '../testData');
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+  const filePath = path.join(dirPath, `${fileName}.txt`);
+  fs.writeFileSync(filePath, content, 'utf8');
+
+  return filePath;
+}
+
+export function deleteFile(filePath: string): void {
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
+}
+
+
 

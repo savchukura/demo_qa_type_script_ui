@@ -14,6 +14,7 @@ interface UserData {
     currentAddress: string;
     permanentAddress: string;
     fileName: string;
+    mobileNumber: string;
 };
 
 export function generateUserData(): UserData {
@@ -27,6 +28,7 @@ export function generateUserData(): UserData {
     const currentAddress = faker.location.streetAddress();
     const permanentAddress = faker.location.streetAddress();
     const fileName = faker.internet.displayName()
+    const mobileNumber = faker.string.numeric(10)
 
     return { fullName,
              firstName,
@@ -37,7 +39,8 @@ export function generateUserData(): UserData {
              department,
              currentAddress,
              permanentAddress,
-             fileName
+             fileName,
+             mobileNumber
         };
 };
 

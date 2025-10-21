@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { TextBoxPage, CheckBoxPage, RadioButtonPage, WebTablesPage, ButtonsPage, DownloadUploadPage, DynamicPropertiesPage } from '../pages/elementsPage.ts'
-import { generateUserData, generateTxtFile } from '../utils/dataGenerator';
+import { generateUserData} from '../utils/dataGenerator';
 
 const testDataArray = [
   generateUserData(),

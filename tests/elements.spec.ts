@@ -173,14 +173,12 @@ test.describe('Tests Buttons Page', () => {
   test('Test Click Double Click Button', async ({page}) => {
     const buttonsPage = new ButtonsPage(page)
     const result = await buttonsPage.clickDoubleClickButton()
-    console.log(result)
     expect(result).toEqual('You have done a double click')
   })
 
   test('Test Right Click Button', async ({page}) => {
     const buttonsPage = new ButtonsPage(page)
     const result = await buttonsPage.clickRightClickButton()
-    console.log(result)
     expect(result).toEqual('You have done a right click')
 
   })
@@ -188,7 +186,6 @@ test.describe('Tests Buttons Page', () => {
   test('Test Dynamic Click Button', async ({page}) => {
     const buttonsPage = new ButtonsPage(page)
     const result = await buttonsPage.clickMeButton()
-    console.log(result)
     expect(result).toEqual('You have done a dynamic click')
 
   })

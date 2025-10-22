@@ -81,7 +81,6 @@ export class FormsPage extends BasePage{
 
     async getResults(){
         
-        //const result = await this.resultTable.locator('tr').nth(2).locator('td').nth(1).textContent()
         const resultCount = await this.resultTable.count()
         const results: string[] = [];
         for(let i = 1; i < resultCount; i++ ){

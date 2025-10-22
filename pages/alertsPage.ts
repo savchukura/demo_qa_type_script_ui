@@ -24,3 +24,31 @@ export class BrowserWindowPage extends BasePage{
         }
     }
 }
+
+
+export class AlertsPage extends BasePage {
+    constructor(page: Page){
+        super(page)
+    }
+
+    async clickAlertButton(button: string) {
+    const alert_buttons: Record<string, string> = {
+        "1": "#alertButton",
+        "2": "#timerAlertButton",
+        "3": "#confirmButton",
+        "4": "#promtButton"
+    }
+
+    await this.page.locator(alert_buttons[button]).click()
+}
+
+    async getResult(){
+        const result = await this.page.locator('#confirmResult').textContent()
+        return result
+    }
+
+    async getPromptResult(){
+        const result = await this.page.locator('#promptResult').textContent()
+        return result
+    }
+}

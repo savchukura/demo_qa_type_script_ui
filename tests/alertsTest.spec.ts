@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { generateUserData } from '../utils/dataGenerator';
-import{ BrowserWindowPage, AlertsPage } from '../pages/alertsPage'
+import{ BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage } from '../pages/alertsPage'
 
 
 test.describe('Browser Window page Test', () => {
@@ -110,4 +110,45 @@ test.describe('Alerts Page Tests', () => {
         expect(result).toEqual(`You entered ${text}`)
     })
 
+})
+
+
+test.describe('Frame page Tests', () =>{
+
+    test.beforeEach(async ({page}) => {
+        await page.goto('/frames')
+    })
+
+    test('check First Frame', async ({page}) => {
+        const framePage = new FramesPage(page)
+        const result = await framePage.getFirstFrame()
+        expect(result).toEqual('This is a sample page')
+    })
+
+    test('check Second Frame', async ({page}) => {
+        const framePage = new FramesPage(page)
+        const result = await framePage.getSecondFrame()
+        expect(result).toEqual('This is a sample page')
+    })
+         
+})
+
+test.describe('Neted Frames Tests', () =>{
+
+    let NestedPage: NestedFramesPage;
+
+    test.beforeEach(async ({page}) =>{
+        await page.goto('/nestedframes')
+        NestedPage = new NestedFramesPage(page);
+    })
+
+    test('Get Parent Frame text', async () => {
+        const text = await NestedPage.getPareentFrame()
+        expect(text).toEqual('Parent frame')
+    })
+
+    test('Get Child Frame text', async () => {
+        const text = await NestedPage.getChildFrame()
+        expect(text).toEqual('Child Iframe')
+    })
 })

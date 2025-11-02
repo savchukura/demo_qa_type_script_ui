@@ -52,3 +52,41 @@ export class AlertsPage extends BasePage {
         return result
     }
 }
+
+
+export class FramesPage extends BasePage{
+    constructor(page: Page){
+        super(page)
+    }
+
+    async getFirstFrame(){
+        const frame = this.page.frameLocator('#frame1')
+        const frameText = await frame.locator('#sampleHeading').textContent()
+        return frameText
+    }
+
+    async getSecondFrame(){
+        const frame = this.page.frameLocator('#frame2')
+        const frameText = await frame.locator('#sampleHeading').textContent()
+        return frameText
+    }
+}
+
+export class NestedFramesPage extends BasePage {
+    constructor(page: Page){
+        super(page)
+    }
+
+    async getPareentFrame() {
+        const parentFrame = this.page.frameLocator('#frame1')
+        const parentFrameText = await parentFrame.locator('body').textContent()
+        return parentFrameText
+    }
+
+    async getChildFrame() {
+        const parentFrame = this.page.frameLocator('#frame1')
+        const childFrame = parentFrame.frameLocator('iframe')
+        const childFrameText = await childFrame.locator('body').textContent()
+        return childFrameText
+    }
+}

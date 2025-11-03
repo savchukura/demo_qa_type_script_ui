@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { generateUserData } from '../utils/dataGenerator';
-import{ BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage } from '../pages/alertsPage'
+import{ BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage, ModalDialogsPage } from '../pages/alertsPage'
+import {LargeModalText} from '../testData/resultData'
 
 
 test.describe('Browser Window page Test', () => {
@@ -150,5 +151,28 @@ test.describe('Neted Frames Tests', () =>{
     test('Get Child Frame text', async () => {
         const text = await NestedPage.getChildFrame()
         expect(text).toEqual('Child Iframe')
+    })
+})
+
+
+test.describe('Modal Dialogs Page Tests', () =>{
+
+    let modalPage: ModalDialogsPage;
+
+    test.beforeEach(async ({page}) =>{
+        await page.goto('/modal-dialogs')
+        modalPage = new ModalDialogsPage(page);
+    })
+
+    test('get small modal text', async () =>{
+        await modalPage.clickModalButtons('small')
+        const text = await modalPage.getModalText()
+        expect(text).toEqual('Small Modal')
+    })
+
+    test('get large modal text', async () =>{
+        await modalPage.clickModalButtons('large')
+        const text = await modalPage.getModalText()
+        expect(text).toEqual(LargeModalText)
     })
 })

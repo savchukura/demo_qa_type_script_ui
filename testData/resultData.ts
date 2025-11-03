@@ -1,0 +1,1 @@
+export const LargeModalText = 'Large Modal'

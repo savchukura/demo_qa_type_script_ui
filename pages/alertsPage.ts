@@ -90,3 +90,24 @@ export class NestedFramesPage extends BasePage {
         return childFrameText
     }
 }
+
+export class ModalDialogsPage extends BasePage {
+    constructor(page: Page){
+        super(page)
+    }
+
+    async clickModalButtons(button: string){
+        const modal_buttons: Record<string, string> = {
+            "small": "#showSmallModal",
+            "large": "#showLargeModal"
+        }
+    await this.page.locator(modal_buttons[button]).click()
+    }
+
+    async getModalText() {
+        const text = await this.page.locator('.modal-title').textContent()
+        return text
+    }
+
+
+}

@@ -1,2 +1,0 @@
-Test Started
-Test ended and browser closed

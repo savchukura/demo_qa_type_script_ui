@@ -170,9 +170,10 @@ test.describe('Modal Dialogs Page Tests', () =>{
         expect(text).toEqual('Small Modal')
     })
 
-    test('get large modal text', async () =>{
+    test('get large modal text', async ({page}) =>{
         await modalPage.clickModalButtons('large')
         const text = await modalPage.getModalText()
+        await page.screenshot({path: 'screnshots/largeModalScreen.png'})
         expect(text).toEqual(LargeModalText)
     })
 })

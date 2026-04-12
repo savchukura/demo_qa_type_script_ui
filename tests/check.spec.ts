@@ -14,7 +14,7 @@ test.describe('Text Box Page Tests', () => {
 
   test.beforeEach(async ({ page }) => {
     textBoxPage = new TextBoxPage(page);
-    await textBoxPage.open('https://demoqa.com/text-box');
+    await textBoxPage.open('/text-box');
     console.log('Test Started');
 
   });
